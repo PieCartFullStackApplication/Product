@@ -33,25 +33,38 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsOfGivenType(ProductType type){
+    public List<Product> getProductsOfGivenType(ProductType type) {
         return productRepo.findAllByProductType(type);
     }
 
     @Override
-    public void removeProduct(long id){
+    public void removeProduct(long id) {
         productRepo.deleteById(id);
     }
 
+
     @Override
-    public Product createProduct(Product product){
+    public Product createProduct(Product product) {
         return productRepo.save(product);
     }
 
+    
+
     @Override
-    public Product updateProduct(long id, Product product) throws GenericExceptionThrower{
-        if(id!=product.getId()){
-             throw new GenericExceptionThrower("Product not active to be updated");
+    public Product updateProduct(long id, Product product) throws GenericExceptionThrower {
+        Optional<Product> existingProductOptional = productRepo.findById(id);
+        if (existingProductOptional.isEmpty()) {
+            throw new GenericExceptionThrower("Product not found");
         }
-        return productRepo.save(product);
+        Product existingProduct = existingProductOptional.get();
+        if (existingProduct.getId() != id) {
+            throw new GenericExceptionThrower("Product ID mismatch");
+        }
+        existingProduct.setTitle(product.getTitle());
+        existingProduct.setProductType(product.getProductType());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setSpecification(product.getSpecification());
+        return productRepo.save(existingProduct);
     }
 }
