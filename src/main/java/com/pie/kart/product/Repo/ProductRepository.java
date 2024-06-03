@@ -12,4 +12,7 @@ import com.pie.kart.product.Model.ProductType;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     public List<Product> findAllByProductType(ProductType type);
+
+    public Product findByTitle(String new_Product);
+
 }
