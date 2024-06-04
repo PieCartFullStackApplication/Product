@@ -1,14 +1,13 @@
 package com.pie.kart.product.Model;
 
-import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.ws.rs.DefaultValue;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -22,13 +21,14 @@ public class Product{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NonNull
+    @NotEmpty
     private String title;
     @NonNull
+    @NotEmpty
+    @DefaultValue(value = "DEFAULT")
     private ProductType productType;
+    @PositiveOrZero
     private double price;
-    @Nullable
-    @JsonIgnore
-    private int quantity;
     private String description;
     private String specification;
 }

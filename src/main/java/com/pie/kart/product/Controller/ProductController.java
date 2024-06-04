@@ -43,8 +43,8 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @DeleteMapping
-    public void removeProductById(@RequestParam long id) throws GenericExceptionThrower {
+    @DeleteMapping("/{id}")
+    public void removeProductById(@PathVariable long id) throws GenericExceptionThrower {
         productService.removeProduct(id);
         
     }
